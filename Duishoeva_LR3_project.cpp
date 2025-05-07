@@ -1,5 +1,11 @@
 #include <iostream>
+#include <locale.h>
+#include <windows.h>
+#include <string>
 using namespace std;
+
+int X = 0; // глобальная переменная для X
+int N = 0; // глобальная переменная для N
 
 void inputX();
 void inputN();
@@ -7,8 +13,9 @@ void productFirstNDigits();
 void sumDigitsX();
 
 int main() {
+    setlocale(LC_ALL, "ru_RU.UTF-8");
+    SetConsoleOutputCP(65001);
     int choice;
-
     do {
         cout << "\n--- Меню ---\n";
         cout << "1. Ввести натуральное число X\n";
@@ -37,26 +44,43 @@ int main() {
                 break;
             default:
                 cout << "Неверный выбор. Повторите попытку.\n";
-                break;        }
-    }while (choice != 0);
-        return 0;
+                break;
+        }
+    } while (choice != 0);
+
+    return 0;
 }
+
 void inputX() {
-    //TODO: Реализовать ввод натурального числа X
-    //Разрабатывается Developer1 - ветка branch_fun_1
+    cout << "Введите натуральное число X: ";
+    cin >> X;
 }
 
 void inputN() {
-    // TODO: Реализовать ввод цифры N (меньше количества разрядов X)
-    //Разрабатывается Developer2 - ветка branch_fun_2
+    int digits = to_string(X).length();
+    do {
+        cout << "Введите цифру N (меньше " << digits << "): ";
+        cin >> N;
+        if (N >= digits) {
+            cout << "Ошибка: N должно быть меньше количества цифр X.\n";
+        }
+    } while (N >= digits);
 }
 
 void productFirstNDigits() {
-    // TODO: Реализовать вычисление произведения первых N цифр числа X
-    //Разрабатывается Developer3 - ветка branch_fun_3
+    string strX = to_string(X);
+    int product = 1;
+    for (int i = 0; i < N; ++i) {
+        product *= (strX[i] - '0');
+    }
+    cout << "Произведение первых " << N << " цифр числа X: " << product << endl;
 }
 
 void sumDigitsX() {
-    // TODO: Реализовать вычисление суммы цифр числа X
-    //Разрабатывается Developer4 - ветка branch_fun_4
+    string strX = to_string(X);
+    int sum = 0;
+    for (char ch : strX) {
+        sum += (ch - '0');
+    }
+    cout << "Сумма цифр числа X: " << sum << endl;
 }
